@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K. Sai Datta | Aspiring Data Analyst</title>
+    <meta name="description"
+        content="Portfolio of K. Sai Datta, an Aspiring Data Analyst skilled in Python, SQL, Power BI, and more.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #0a0e27;
+            --text-color: #e2e8f0;
+            --primary-color: #38bdf8;
+            --secondary-color: #818cf8;
+            --accent-color: #a5f3fc;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(165, 243, 252, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --font-main: 'Outfit', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Shapes */
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            filter: blur(120px);
+            opacity: 0.4;
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out alternate;
+        }
+
+        .shape-1 {
+            top: -10%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .shape-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            animation-delay: -5s;
+        }
+
+        .shape-3 {
+            top: 40%;
+            left: 50%;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            animation-duration: 20s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(50px, 80px) rotate(10deg);
+            }
+        }
+
+        /* Glassmorphism */
+        .glass-header,
+        .glass-card,
+        .glass-footer {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        /* Header */
+        .glass-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+
+        /* Sections */
+        .section {
+            padding: 6rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Split Layout */
+        .split-layout {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4rem;
+            width: 100%;
+        }
+
+        .split-layout>div {
+            flex: 1;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 2rem;
+            padding-top: 80px;
+        }
+
+        .hero-text {
+            text-align: left;
+            max-width: 600px;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .highlight {
+            color: var(--accent-color);
+            text-shadow: 0 0 30px rgba(165, 243, 252, 0.6);
+        }
+
+        .hero-text h2 {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .typing-text {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            color: #cbd5e1;
+            max-width: 500px;
+            min-height: 2.4rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-blob {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            position: relative;
+            animation: blob 8s infinite ease-in-out;
+        }
+
+        .glow-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(165, 243, 252, 0.3), transparent);
+            filter: blur(40px);
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes blob {
+
+            0%,
+            100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            }
+
+            50% {
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 0.5rem 0 0;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #0a0e27;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(56, 189, 248, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* About Section */
+        .about-image img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.3);
+            border: 2px solid var(--glass-border);
+        }
+
+        .about-text {
+            padding: 2rem;
+            border-radius: 20px;
+        }
+
+        .about-text h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .about-text h3:first-child {
+            margin-top: 0;
+        }
+
+        .about-text h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .education-item {
+            padding-left: 1rem;
+            border-left: 3px solid var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            padding: 2rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(56, 189, 248, 0.3);
+        }
+
+        .skill-category h3 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        .skill-category h3 i {
+            margin-right: 0.5rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+        }
+
+        .tags span {
+            background: rgba(56, 189, 248, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .tags span:hover {
+            background: rgba(56, 189, 248, 0.3);
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            padding: 0;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .project-preview {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(129, 140, 248, 0.1));
+        }
+
+        .project-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-preview img {
+            transform: scale(1.1);
+        }
+
+        .project-info {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(56, 189, 248, 0.4);
+        }
+
+        .project-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .project-card p {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            color: #cbd5e1;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tech span {
+            background: rgba(129, 140, 248, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Resume Section */
+        .resume-container {
+            text-align: center;
+            padding: 3rem;
+            border-radius: 20px;
+        }
+
+        .resume-container p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .resume-actions {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Contact Section */
+        .contact-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            padding: 3rem;
+            border-radius: 20px;
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .contact-form {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .info-item i {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+        }
+
+        .social-links {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-color);
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--text-color);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+
+        /* Social Media Bar */
+        .social-media-bar {
+            display: flex;
+            gap: 1rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-icon.youtube {
+            color: #FF0000;
+        }
+
+        .social-icon.youtube:hover {
+            background: rgba(255, 0, 0, 0.1);
+            border-color: #FF0000;
+        }
+
+        .social-icon.linkedin {
+            color: #0077B5;
+        }
+
+        .social-icon.linkedin:hover {
+            background: rgba(0, 119, 181, 0.1);
+            border-color: #0077B5;
+        }
+
+        .social-icon.instagram {
+            color: #E4405F;
+        }
+
+        .social-icon.instagram:hover {
+            background: rgba(228, 64, 95, 0.1);
+            border-color: #E4405F;
+        }
+
+        .social-icon.tiktok {
+            color: #00F2EA;
+        }
+
+        .social-icon.tiktok:hover {
+            background: rgba(0, 242, 234, 0.1);
+            border-color: #00F2EA;
+        }
+
+        .social-icon.discord {
+            color: #5865F2;
+        }
+
+        .social-icon.discord:hover {
+            background: rgba(88, 101, 242, 0.1);
+            border-color: #5865F2;
+        }
+
+        .social-icon.notion {
+            color: #FFFFFF;
+        }
+
+        .social-icon.notion:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #FFFFFF;
+        }
+
+        .social-icon.twitter {
+            color: #000000;
+            background: #FFFFFF;
+        }
+
+        .social-icon.twitter:hover {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        .social-icon.github {
+            color: #FFFFFF;
+        }
+
+        .social-icon.github:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #FFFFFF;
+        }
+
+        /* Footer */
+        .glass-footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: #0a0e27;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .split-layout {
+                flex-direction: column;
+                text-align: center;
+                gap: 3rem;
+            }
+
+            .reverse-mobile {
+                flex-direction: column-reverse;
+            }
+
+            .hero-text {
+                text-align: center;
+                margin: 0 auto;
+            }
+
+            .hero-text p {
+                margin: 0 auto 2rem auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .image-blob {
+                width: 350px;
+                height: 350px;
+            }
+
+            .about-text h2 {
+                text-align: center !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(10, 14, 39, 0.98);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.4s ease;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .contact-wrapper {
+                flex-direction: column;
+            }
+
+            .image-blob {
+                width: 280px;
+                height: 280px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin: 0.5rem 0;
+            }
+
+            .social-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Shapes -->
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="glass-header">
+        <nav>
+            <div class="logo">K. Sai Datta</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#resume">Resume</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home / Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="container split-layout">
+                <div class="hero-text">
+                    <h1>Hi, I'm <span class="highlight">K. Sai Datta</span></h1>
+                    <h2>Aspiring Data Analyst</h2>
+                    <p class="typing-text">I turn data into decisions using Python, SQL, Power BI and analytics.</p>
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">View Projects</a>
+                        <a href="#contact" class="btn btn-secondary">Contact Me</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="image-blob">
+                        <div class="glow-effect"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="split-layout reverse-mobile">
+                    <div class="about-image fade-in-up">
+                        <div
+                            style="width: 400px; height: 400px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 20px;">
+                        </div>
+                    </div>
+                    <div class="about-text glass-card fade-in-up">
+                        <h3>Professional Summary</h3>
+                        <p>Aspiring Data Analyst with a strong foundation in Python, SQL, and data visualization tools
+                            like Power BI and Tableau. Skilled in data cleaning, exploratory data analysis (EDA), and
+                            building ETL pipelines. Passionate about transforming raw data into actionable insights
+                            through storytelling and analytics.</p>
+
+                        <h3>Education</h3>
+                        <div class="education-item">
+                            <h4>B.Tech in Computer Science Engineering</h4>
+                            <p>2021 – 2025 | GPA: 7.32</p>
+                        </div>
+
+                        <h3>Interests</h3>
+                        <p>Data Analytics • Novel Writing • Film Editing</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <div class="container">
+                <h2 class="section-title">Skills & Expertise</h2>
+                <div class="skills-grid">
+                    <div class="skill-category glass-card fade-in-up">
+                        <h3><i class="fas fa-code"></i> Programming</h3>
+                        <div class="tags">
+                            <span>Python</span>
+                            <span>SQL</span>
+                        </div>
+                    </div>
+                    <div class="skill-category glass-card fade-in-up" style="animation-delay: 0.1s;">
+                        <h3><i class="fas fa-tools"></i> Data Tools</h3>
+                        <div class="tags">
+                            <span>SQL Server</span>
+                            <span>Power BI</span>
+                            <span>Tableau</span>
+                            <span>Excel</span>
+                            <span>Git</span>
+                        </div>
+                    </div>
+                    <div class="skill-category glass-card fade-in-up" style="animation-delay: 0.2s;">
+                        <h3><i class="fas fa-database"></i> Data Skills</h3>
+                        <div class="tags">
+                            <span>Data Cleaning</span>
+                            <span>EDA</span>
+                            <span>Data Modeling</span>
+                            <span>ETL Pipelines</span>
+                            <span>Dashboarding</span>
+                            <span>Reporting</span>
+                        </div>
+                    </div>
+                    <div class="skill-category glass-card fade-in-up" style="animation-delay: 0.3s;">
+                        <h3><i class="fas fa-book"></i> Libraries</h3>
+                        <div class="tags">
+                            <span>Pandas</span>
+                            <span>NumPy</span>
+                            <span>Scikit-learn</span>
+                            <span>Matplotlib</span>
+                        </div>
+                    </div>
+                    <div class="skill-category glass-card fade-in-up" style="animation-delay: 0.4s;">
+                        <h3><i class="fas fa-lightbulb"></i> Soft Skills</h3>
+                        <div class="tags">
+                            <span>Storytelling</span>
+                            <span>Analytical Thinking</span>
+                            <span>Problem Solving</span>
+                            <span>Technical Writing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="container">
+                <h2 class="section-title">Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card glass-card fade-in-up">
+                        <div class="project-preview">
+                            <div
+                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                💎</div>
+                        </div>
+                        <div class="project-info">
+                            <h3>💎 Diamond Price Prediction</h3>
+                            <p>Random Forest model with feature engineering (sqrt transform, ordinal encoding) on 53k+
+                                records with USD–INR conversion.</p>
+                            <div class="project-tech">
+                                <span>Python</span>
+                                <span>Scikit-learn</span>
+                                <span>Pandas</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/datta116/Diamond_price_prediction" target="_blank"
+                                    class="btn btn-sm">View Code <i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card glass-card fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="project-preview">
+                            <div
+                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                🗄️</div>
+                        </div>
+                        <div class="project-info">
+                            <h3>🗄️ Data Warehouse</h3>
+                            <p>SQL Server implementation with Medallion Architecture, ETL pipelines, and Star schema for
+                                BI.</p>
+                            <div class="project-tech">
+                                <span>SQL Server</span>
+                                <span>ETL</span>
+                                <span>Star Schema</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/datta116/sql-data-warehouse-project" target="_blank"
+                                    class="btn btn-sm">View Code <i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card glass-card fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="project-preview">
+                            <div
+                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                📊</div>
+                        </div>
+                        <div class="project-info">
+                            <h3>📊 SQL Data Analytics</h3>
+                            <p>Comprehensive data analysis with EDA, segmentation, time-series analytics using CTEs &
+                                window functions.</p>
+                            <div class="project-tech">
+                                <span>SQL</span>
+                                <span>Analytics</span>
+                                <span>CTEs</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/datta116/sql-data-analytics-project" target="_blank"
+                                    class="btn btn-sm">View Code <i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card glass-card fade-in-up" style="animation-delay: 0.3s;">
+                        <div class="project-preview">
+                            <div
+                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                💰</div>
+                        </div>
+                        <div class="project-info">
+                            <h3>💰 Salary Dashboard</h3>
+                            <p>Interactive Excel dashboard visualizing salary trends across demographics with pivot
+                                tables and slicers.</p>
+                            <div class="project-tech">
+                                <span>Excel</span>
+                                <span>Pivot Tables</span>
+                                <span>Charts</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/datta116/Salary-Dashboard" target="_blank"
+                                    class="btn btn-sm">View Code <i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resume Section -->
+        <section id="resume" class="section">
+            <div class="container">
+                <h2 class="section-title">Resume</h2>
+                <div class="resume-container glass-card fade-in-up">
+                    <p>Check out my full professional resume.</p>
+                    <div class="resume-actions">
+                        <a href="#" download="K_Sai_Datta_Resume.pdf" class="btn btn-primary">Download Resume <i
+                                class="fas fa-download"></i></a>
+                        <a href="#" target="_blank" class="btn btn-secondary">View in Browser <i
+                                class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <h2 class="section-title">Contact Me</h2>
+                <div class="contact-wrapper glass-card fade-in-up">
+                    <div class="contact-info">
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>ksaidatta.116@gmail.com</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 9182261303</span>
+                        </div>
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/datta116" target="_blank" title="LinkedIn"><i
+                                    class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/datta116" target="_blank" title="GitHub"><i
+                                    class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+
+                <!-- Social Media Bar -->
+                <div class="social-media-bar">
+                    <a href="https://youtube.com/@ksaidatta" target="_blank" title="YouTube"
+                        class="social-icon youtube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/datta116" target="_blank" title="LinkedIn"
+                        class="social-icon linkedin">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://instagram.com/ksaidatta" target="_blank" title="Instagram"
+                        class="social-icon instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://tiktok.com/@ksaidatta" target="_blank" title="TikTok" class="social-icon tiktok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://discord.gg/ksaidatta" target="_blank" title="Discord" class="social-icon discord">
+                        <i class="fab fa-discord"></i>
+                    </a>
+                    <a href="https://notion.so/ksaidatta" target="_blank" title="Notion" class="social-icon notion">
+                        <i class="fas fa-book"></i>
+                    </a>
+                    <a href="https://twitter.com/ksaidatta" target="_blank" title="X (Twitter)"
+                        class="social-icon twitter">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+                    <a href="https://github.com/datta116" target="_blank" title="GitHub" class="social-icon github">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-footer">
+        <p>&copy; 2025 K. Sai Datta. All rights reserved.</p>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const navLinksItems = document.querySelectorAll('.nav-links li');
+
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                });
+            }
+
+            navLinksItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+
+            // Smooth Scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Typing Animation
+            const typingText = document.querySelector('.typing-text');
+            if (typingText) {
+                const text = "I turn data into decisions using Python, SQL, Power BI and analytics.";
+                let index = 0;
+                typingText.textContent = '';
+
+                function type() {
+                    if (index < text.length) {
+                        typingText.textContent += text.charAt(index);
+                        index++;
+                        setTimeout(type, 50);
+                    }
+                }
+
+                setTimeout(type, 500);
+            }
+
+            // Scroll Animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.fade-in-up');
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+
+            // Back to Top Button
+            const backToTopBtn = document.getElementById('backToTop');
+
+            if (backToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopBtn.classList.add('visible');
+                    } else {
+                        backToTopBtn.classList.remove('visible');
+                    }
+                });
+
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // Contact Form
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const btn = contactForm.querySelector('button');
+                    const originalText = btn.innerText;
+                    btn.innerText = 'Sending...';
+                    btn.disabled = true;
+
+                    setTimeout(() => {
+                        btn.innerText = 'Message Sent! ✓';
+                        btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
+                        contactForm.reset();
+
+                        setTimeout(() => {
+                            btn.innerText = originalText;
+                            btn.disabled = false;
+                            btn.style.background = '';
+                        }, 3000);
+                    }, 1500);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
