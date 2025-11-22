@@ -1,406 +1,618 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="K. Sai Datta - Aspiring Data Analyst | Python, SQL, Power BI Portfolio"/>
-  <meta name="author" content="K. Sai Datta"/>
-  <title>K. Sai Datta | Aspiring Data Analyst</title>
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  Github, Linkedin, Mail, Download, ExternalLink, 
+  Code, MessageSquare, X, Send, 
+  Cpu, Database, BarChart, ChevronRight, Terminal,
+  Menu, User, Brain, Twitter, Youtube, Globe, ArrowLeft, LayoutGrid
+} from 'lucide-react';
 
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+// --- CONFIGURATION & DATA ---
 
-  <style>
-    :root {
-      --bg: #0a0e17;
-      --card-bg: rgba(20, 25, 40, 0.4);
-      --glass-border: rgba(100, 200, 255, 0.2);
-      --neon-blue: #64c8ff;
-      --text: #e0e7ff;
-      --text-light: #a0b8e0;
-    }
+const RESUME_LINK = "/mnt/data/K.Sai Datta Resume - Copy.pdf";
 
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Rajdhani', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.6;
+const PORTFOLIO_DATA = {
+  name: "K. Sai Datta",
+  title: "Data Analyst & Engineer",
+  tagline: "Transforming raw data into strategic decisions.",
+  about: "I am a B.Tech CSE student (2021–2025) with a passion for data engineering and analytics. I specialize in building robust ETL pipelines, designing data warehouses, and creating actionable visualizations. My goal is to bridge the gap between complex data and business value.",
+  education: {
+    degree: "B.Tech in Computer Science",
+    period: "2021 – 2025",
+    gpa: "7.32 / 10",
+    school: "Your University Name"
+  },
+  stats: [
+    { label: "Projects", value: "10+" },
+    { label: "SQL Proficiency", value: "95%" },
+    { label: "Python proficiency", value: "90%" },
+  ],
+  skills: [
+    "Python", "SQL", "Power BI", "Tableau", "Excel", "Pandas", "NumPy", 
+    "Scikit-learn", "ETL Pipelines", "Data Warehousing", "Git", "Azure"
+  ],
+  projects: [
+    {
+      id: 1,
+      title: "Diamond Price Prediction",
+      desc: "End-to-end ML pipeline using Random Forest to predict prices based on 53k+ records. Features robust feature engineering.",
+      tags: ["Python", "ML", "Scikit-learn"],
+      link: "https://github.com/datta116/Diamond_price_prediction",
+      icon: <Cpu size={40} />,
+      color: "from-blue-600 to-cyan-500",
+      bgPattern: "radial-gradient(circle at 50% 50%, rgba(6,182,212,0.15) 0%, transparent 50%)"
+    },
+    {
+      id: 2,
+      title: "Data Warehouse Architecture",
+      desc: "Designed a Star Schema and Medallion Architecture in SQL Server for enterprise BI. Optimized for high-volume reporting.",
+      tags: ["SQL Server", "ETL", "Data Modeling"],
+      link: "https://github.com/datta116/sql-data-warehouse-project",
+      icon: <Database size={40} />,
+      color: "from-purple-600 to-pink-500",
+      bgPattern: "radial-gradient(circle at 50% 50%, rgba(168,85,247,0.15) 0%, transparent 50%)"
+    },
+    {
+      id: 3,
+      title: "SQL Business Analytics",
+      desc: "Advanced customer segmentation and time-series analysis using CTEs and Window Functions to derive actionable insights.",
+      tags: ["Advanced SQL", "EDA", "Analytics"],
+      link: "https://github.com/datta116/sql-data-analytics-project",
+      icon: <BarChart size={40} />,
+      color: "from-orange-500 to-red-500",
+      bgPattern: "radial-gradient(circle at 50% 50%, rgba(249,115,22,0.15) 0%, transparent 50%)"
+    },
+    {
+      id: 4,
+      title: "Executive Salary Dashboard",
+      desc: "Interactive Excel dashboard with dynamic slicers to visualize compensation trends across various demographics.",
+      tags: ["Excel", "Dashboard", "Visualization"],
+      link: "https://github.com/datta116/Salary-Dashboard",
+      icon: <Globe size={40} />,
+      color: "from-green-500 to-emerald-400",
+      bgPattern: "radial-gradient(circle at 50% 50%, rgba(34,197,94,0.15) 0%, transparent 50%)"
     }
+  ]
+};
 
-    /* Navigation */
-    nav {
-      position: fixed;
-      top: 0; width: 100%;
-      background: rgba(10, 14, 23, 0.8);
-      backdrop-filter: blur(12px);
-      z-index: 1000;
-      padding: 1rem 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--glass-border);
-    }
-    .logo {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.8rem;
-      color: var(--neon-blue);
-      text-shadow: 0 0 15px var(--neon-blue);
-    }
-    .nav-links a {
-      color: var(--text-light);
-      text-decoration: none;
-      font-weight: 600;
-      margin: 0 1.2rem;
-      position: relative;
-      transition: 0.3s;
-    }
-    .nav-links a::after {
-      content: ''; position: absolute; width: 0; height: 2px; bottom: -6px; left: 0;
-      background: var(--neon-blue); transition: 0.4s;
-    }
-    .nav-links a:hover { color: var(--neon-blue); }
-    .nav-links a:hover::after { width: 100%; }
+const RESUME_CONTEXT = `
+Name: K. Sai Datta
+Role: Aspiring Data Analyst
+Summary: B.Tech CSE student (2021–2025), GPA 7.32. Expert in Python, SQL, Power BI.
+Skills: Python, SQL, SQL Server, Power BI, Tableau, Excel, Git, Data Cleaning, EDA, ETL.
+Projects: Diamond Price Prediction, Data Warehouse (SQL Server), SQL Data Analytics, Salary Dashboard.
+Contact: ksaidatta.116@gmail.com, +91 9182261303.
+Interests: Data Analytics, Novel Writing, Film Editing.
+`;
 
-    .menu-toggle { display: none; cursor: pointer; font-size: 1.8rem; color: var(--neon-blue); }
+// --- COMPONENTS ---
 
-    section { min-height: 100vh; padding: 120px 5% 80px; opacity: 0; transform: translateY(50px); transition: all 1s ease-out; }
-    section.visible { opacity: 1; transform: translateY(0); }
-
-    .glass-card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(12px);
-      padding: 2rem;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      transition: all 0.4s;
-    }
-    .glass-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(100, 200, 255, 0.15);
-      border-color: var(--neon-blue);
-    }
-
-    /* Hero */
-    #home {
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      text-align: center; position: relative; overflow: hidden;
-    }
-    .hero h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 4.5rem;
-      background: linear-gradient(90deg, #64c8ff, #ffffff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .typing { font-size: 1.6rem; color: var(--neon-blue); height: 50px; }
-    .cta-btn {
-      padding: 14px 40px; background: transparent; border: 2px solid var(--neon-blue);
-      color: var(--neon-blue); font-size: 1.2rem; border-radius: 50px; cursor: pointer;
-      transition: 0.4s; text-decoration: none; display: inline-block;
-    }
-    .cta-btn:hover {
-      background: var(--neon-blue); color: #0a0e17; box-shadow: 0 0 30px var(--neon-blue);
-    }
-
-    #particles-js { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; }
-
-    /* Projects Grid */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-      max-width: 1300px;
-      margin: 3rem auto;
-    }
-    .project-card {
-      position: relative;
-      overflow: hidden;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.4s;
-    }
-    .project-card img {
-      width: 100%; height: 220px; object-fit: cover; transition: 0.5s;
-    }
-    .project-card:hover img { transform: scale(1.1); }
-
-    /* Fullscreen Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(10, 14, 23, 0.95);
-      backdrop-filter: blur(10px);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    .modal.active {
-      display: flex;
-      opacity: 1;
-    }
-    .modal-content {
-      background: var(--card-bg);
-      border: 2px solid var(--neon-blue);
-      border-radius: 24px;
-      max-width: 900px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-      box-shadow: 0 0 60px rgba(100, 200, 255, 0.6);
-      animation: zoomIn 0.6s ease;
-    }
-    @keyframes zoomIn {
-      from { transform: scale(0.5); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-    .modal-close {
-      position: absolute;
-      top: 15px; right: 20px;
-      font-size: 2.5rem;
-      color: var(--neon-blue);
-      cursor: pointer;
-      z-index: 10;
-      background: rgba(0,0,0,0.5);
-      width: 50px; height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.3s;
-    }
-    .modal-close:hover {
-      background: var(--neon-blue);
-      color: #000;
-    }
-    .modal-body {
-      padding: 3rem;
-      text-align: center;
-    }
-    .modal-body img {
-      width: 100%;
-      max-height: 400px;
-      object-fit: contain;
-      border-radius: 16px;
-      margin: 1rem 0;
-      border: 1px solid var(--glass-border);
-    }
-    .modal-body h3 {
-      font-size: 2.2rem;
-      margin: 1rem 0;
-      background: linear-gradient(90deg, #64c8ff, #fff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Back to Top */
-    #backToTop {
-      position: fixed; bottom: 30px; right: 30px;
-      background: var(--neon-blue); color: #0a0e17;
-      width: 50px; height: 50px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; opacity: 0; transition: 0.4s; z-index: 999;
-      font-size: 1.8rem;
-    }
-    #backToTop.show { opacity: 1; }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(10,14,23,0.95); padding: 2rem; }
-      .nav-links.active { display: flex; }
-      .menu-toggle { display: block; }
-      .hero h1 { font-size: 3rem; }
-      .modal-body { padding: 2rem; }
-      .modal-body h3 { font-size: 1.8rem; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Navigation -->
-  <nav>
-    <div class="logo">KSD</div>
-    <div class="menu-toggle" id="mobile-menu">Menu</div>
-    <div class="nav-links" id="nav-links">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#resume">Resume</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
-
-  <!-- Home -->
-  <section id="home" class="visible">
-    <div id="particles-js"></div>
-    <div class="hero">
-      <h1>K. Sai Datta</h1>
-      <p>Aspiring Data Analyst</p>
-      <div class="typing" id="typing-text"></div>
-      <a href="#projects" class="cta-btn">View Projects</a>
-    </div>
+const Section = ({ id, className, children }) => (
+  <section id={id} className={`py-20 px-4 md:px-12 lg:px-24 relative ${className}`}>
+    {children}
   </section>
+);
 
-  <!-- Projects Section -->
-  <section id="projects">
-    <h2 style="text-align:center; font-size:3rem; margin-bottom:3rem; background:linear-gradient(90deg,#64c8ff,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
-      Projects
-    </h2>
-    <div class="projects-grid">
-      <!-- Project 1 -->
-      <div class="glass-card project-card" data-title="Diamond Price Prediction" 
-           data-desc="Built a Random Forest Regressor model to predict diamond prices with 53k+ records. Applied feature engineering: sqrt transformation, ordinal encoding, and USD→INR conversion for Indian market relevance."
-           data-img="https://via.placeholder.com/800x500/0a0e17/64c8ff?text=Diamond+Price+Prediction"
-           data-link="https://github.com/datta116/Diamond_price_prediction">
-        <img src="https://via.placeholder.com/400x220/0a0e17/64c8ff?text=Diamond+Price+Prediction" alt="Diamond Price">
-        <div style="padding:1.5rem;">
-          <h3>Diamond Price Prediction</h3>
-          <p>Random Forest • Feature Engineering • 53k+ records</p>
-        </div>
-      </div>
+const FadeIn = ({ children, delay = 0 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const domRef = useRef();
 
-      <!-- Project 2 -->
-      <div class="glass-card project-card" data-title="Enterprise Data Warehouse" 
-           data-desc="Designed and implemented a full-scale data warehouse using SQL Server with Medallion Architecture (Bronze → Silver → Gold). Built ETL pipelines and Star Schema for efficient BI reporting."
-           data-img="https://via.placeholder.com/800x500/0a0e17/64c8ff?text=Data+Warehouse+Architecture"
-           data-link="https://github.com/datta116/sql-data-warehouse-project">
-        <img src="https://via.placeholder.com/400x220/0a0e17/64c8ff?text=Data+Warehouse" alt="Data Warehouse">
-        <div style="padding:1.5rem;">
-          <h3>SQL Data Warehouse</h3>
-          <p>Medallion Architecture • Star Schema • ETL</p>
-        </div>
-      </div>
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => setIsVisible(entry.isIntersecting));
+    });
+    const { current } = domRef;
+    if (current) observer.observe(current);
+    return () => observer.unobserve(current);
+  }, []);
 
-      <!-- Project 3 -->
-      <div class="glass-card project-card" data-title="Advanced SQL Data Analytics" 
-           data-desc="Performed complex EDA using CTEs, window functions, and time-series analysis. Customer segmentation, cohort analysis, and business insights extraction."
-           data-img="https://via.placeholder.com/800x500/0a0e17/64c8ff?text=SQL+Analytics"
-           data-link="https://github.com/datta116/sql-data-analytics-project">
-        <img src="https://via.placeholder.com/400x220/0a0e17/64c8ff?text=SQL+Analytics" alt="SQL Analytics">
-        <div style="padding:1.5rem;">
-          <h3>Advanced SQL Analytics</h3>
-          <p>CTEs • Window Functions • Time-Series</p>
-        </div>
-      </div>
+  return (
+    <div
+      ref={domRef}
+      className={`transition-all duration-700 ease-out transform ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+};
 
-      <!-- Project 4 -->
-      <div class="glass-card project-card" data-title="Interactive Salary Dashboard" 
-           data-desc="Dynamic Excel dashboard with slicers, pivot tables, and conditional formatting. HR analytics: salary trends, department insights, and performance metrics."
-           data-img="https://via.placeholder.com/800x500/0a0e17/64c8ff?text=Salary+Dashboard"
-           data-link="https://github.com/datta116/Salary-Dashboard">
-        <img src="https://via.placeholder.com/400x220/0a0e17/64c8ff?text=Salary+Dashboard" alt="Salary Dashboard">
-        <div style="padding:1.5rem;">
-          <h3>Interactive Salary Dashboard</h3>
-          <p>Excel • Pivot Tables • Slicers • Charts</p>
+const NavLink = ({ href, children, onClick }) => (
+  <a 
+    href={href} 
+    onClick={onClick}
+    className="text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors uppercase tracking-wider cursor-pointer"
+  >
+    {children}
+  </a>
+);
+
+// --- PROJECT GRID COMPONENT (PREVIEW MODE) ---
+const ProjectGrid = ({ projects, onSelect }) => {
+  return (
+    <div className="grid md:grid-cols-2 gap-6">
+      {projects.map((project, index) => (
+        <div 
+          key={project.id}
+          onClick={() => onSelect(project.id)}
+          className="group bg-slate-900 rounded-3xl border border-white/5 p-6 cursor-pointer hover:border-cyan-500/30 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/10 flex flex-col h-full"
+        >
+          {/* Title at Top */}
+          <div className="flex justify-between items-start mb-6">
+            <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">{project.title}</h3>
+            <div className={`p-2 rounded-xl bg-gradient-to-br ${project.color} opacity-20 group-hover:opacity-100 text-white transition-all`}>
+               {React.cloneElement(project.icon, { size: 20 })}
+            </div>
+          </div>
+
+          {/* Preview Content */}
+          <div className="flex-1 relative rounded-2xl bg-slate-950/50 border border-white/5 p-6 mb-4 overflow-hidden group-hover:bg-slate-950 transition-colors">
+             <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity" style={{ background: project.bgPattern }}></div>
+             <p className="text-slate-400 text-sm line-clamp-3 relative z-10">{project.desc}</p>
+          </div>
+
+          {/* Action Hint */}
+          <div className="flex items-center justify-between text-sm">
+            <div className="flex gap-2">
+              {project.tags.slice(0, 2).map((tag, i) => (
+                <span key={i} className="text-xs text-slate-500 bg-slate-800 px-2 py-1 rounded-md">{tag}</span>
+              ))}
+            </div>
+            <span className="text-cyan-500 font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0 duration-300">
+              Expand <LayoutGrid size={14} />
+            </span>
+          </div>
         </div>
+      ))}
+    </div>
+  );
+};
+
+// --- EXPANDING CARD GALLERY COMPONENT (CR7 MODE) ---
+const ExpandingGallery = ({ projects, initialActiveId, onBack }) => {
+  const [activeId, setActiveId] = useState(initialActiveId);
+
+  return (
+    <div className="w-full animate-fadeIn">
+      {/* Back Button */}
+      <button 
+        onClick={onBack}
+        className="mb-6 flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm font-bold uppercase tracking-widest group"
+      >
+        <div className="p-2 rounded-full bg-slate-800 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-all">
+          <ArrowLeft size={16} />
+        </div>
+        Back to Grid
+      </button>
+
+      <div className="flex flex-col md:flex-row gap-4 h-[600px] md:h-[500px] w-full">
+        {projects.map((project) => (
+          <div
+            key={project.id}
+            onClick={() => setActiveId(project.id)}
+            className={`relative rounded-3xl cursor-pointer overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] border border-white/5 shadow-xl
+              ${activeId === project.id 
+                ? 'flex-[10] opacity-100 ring-1 ring-cyan-500/50' 
+                : 'flex-[1] opacity-60 hover:opacity-80 grayscale hover:grayscale-0'
+              }
+            `}
+            style={{ background: '#0f172a' }}
+          >
+            {/* Background Ambient Glow */}
+            <div className="absolute inset-0 opacity-30" style={{ background: project.bgPattern }}></div>
+            <div className={`absolute inset-0 bg-gradient-to-b from-transparent to-slate-950 ${activeId === project.id ? 'opacity-90' : 'opacity-100'}`}></div>
+
+            {/* Content Container */}
+            <div className={`absolute bottom-0 left-0 w-full p-8 flex flex-col justify-end h-full transition-opacity duration-500
+              ${activeId === project.id ? 'items-start' : 'items-center md:justify-center'}
+            `}>
+              
+              {/* Icon - Rotates when active */}
+              <div className={`mb-4 p-3 rounded-2xl bg-slate-800/80 backdrop-blur border border-white/10 text-white transition-all duration-500
+                 ${activeId === project.id ? 'rotate-0 scale-100 bg-gradient-to-br ' + project.color : 'md:-rotate-90 md:scale-75'}
+              `}>
+                {project.icon}
+              </div>
+
+              {/* Text Content - Hidden when inactive on desktop */}
+              <div className={`transition-all duration-500 overflow-hidden w-full
+                 ${activeId === project.id ? 'opacity-100 max-h-[300px] translate-y-0' : 'opacity-0 max-h-0 translate-y-10 md:hidden'}
+              `}>
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">{project.title}</h3>
+                <p className="text-slate-300 text-sm md:text-base mb-6 max-w-lg">{project.desc}</p>
+                
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tags.map((tag, i) => (
+                    <span key={i} className="text-xs font-bold text-white bg-white/10 px-3 py-1 rounded-full border border-white/10">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <a 
+                  href={project.link} 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-bold text-white bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl transition-all border border-white/10 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]"
+                >
+                  View Project <ExternalLink size={16} />
+                </a>
+              </div>
+
+              {/* Vertical Title for Inactive State (Desktop) */}
+              {activeId !== project.id && (
+                 <div className="hidden md:block absolute bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap -rotate-90 origin-center text-slate-500 font-bold tracking-widest uppercase text-sm">
+                   {project.title.substring(0, 15)}...
+                 </div>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
-  </section>
+  );
+};
 
-  <!-- Modal -->
-  <div class="modal" id="projectModal">
-    <div class="modal-content">
-      <div class="modal-close" id="modalClose">×</div>
-      <div class="modal-body">
-        <h3 id="modalTitle"></h3>
-        <img id="modalImage" src="" alt="Project Preview">
-        <p id="modalDesc" style="font-size:1.2rem; margin:1.5rem 0; max-width:700px; margin-left:auto; margin-right:auto;"></p>
-        <a id="modalLink" href="#" target="_blank" class="cta-btn">View Code on GitHub</a>
+// --- SOCIAL BUTTON COMPONENT ---
+const SocialBtn = ({ href, icon: Icon, colorClass }) => (
+  <a 
+    href={href}
+    target="_blank"
+    rel="noreferrer"
+    className={`group relative w-14 h-14 flex items-center justify-center bg-slate-900 rounded-2xl border border-white/5 shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-cyan-500/20`}
+  >
+    <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br ${colorClass}`}></div>
+    <Icon size={24} className="relative z-10 text-slate-400 group-hover:text-white transition-colors duration-300" />
+  </a>
+);
+
+// --- GEMINI API HELPER ---
+const callGemini = async (prompt, systemInstruction) => {
+  const apiKey = ""; // Environment injects this
+  if (!apiKey) return "Error: API Key missing (running locally?).";
+  
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+  
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        systemInstruction: { parts: [{ text: systemInstruction }] }
+      })
+    });
+    const data = await response.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+  } catch (e) {
+    console.error(e);
+    return "Error connecting to AI.";
+  }
+};
+
+export default function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  // Projects View State (Grid or Gallery)
+  const [projectView, setProjectView] = useState('grid'); // 'grid' | 'gallery'
+  const [activeProject, setActiveProject] = useState(1);
+
+  // AI State
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatInput, setChatInput] = useState('');
+  const [chatHistory, setChatHistory] = useState([{ role: 'ai', text: "Hi! I'm Sai's AI Assistant. Ask me about his projects or skills!" }]);
+  const [isTyping, setIsTyping] = useState(false);
+
+  const handleChatSubmit = async (e) => {
+    e.preventDefault();
+    if (!chatInput.trim()) return;
+    
+    const userMsg = chatInput;
+    setChatHistory(prev => [...prev, { role: 'user', text: userMsg }]);
+    setChatInput('');
+    setIsTyping(true);
+
+    const sysPrompt = `You are the AI assistant for K. Sai Datta. Context: ${RESUME_CONTEXT}. Be professional, concise, and enthusiastic.`;
+    const aiResponse = await callGemini(userMsg, sysPrompt);
+
+    setChatHistory(prev => [...prev, { role: 'ai', text: aiResponse }]);
+    setIsTyping(false);
+  };
+
+  // Handle Project Selection
+  const handleProjectSelect = (id) => {
+    setActiveProject(id);
+    setProjectView('gallery');
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
+      
+      {/* --- NAVBAR --- */}
+      <nav className="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Terminal className="text-cyan-400" size={24} />
+            <span className="font-bold text-xl tracking-tighter text-white">Sai<span className="text-cyan-400">Datta</span></span>
+          </div>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex gap-8">
+            {['Home', 'About', 'Skills', 'Projects', 'Contact'].map(item => (
+              <NavLink key={item} href={`#${item.toLowerCase()}`}>{item}</NavLink>
+            ))}
+          </div>
+
+          {/* Mobile Toggle */}
+          <button className="md:hidden text-cyan-400" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-slate-900 border-b border-white/10 p-6 flex flex-col gap-4">
+             {['Home', 'About', 'Skills', 'Projects', 'Contact'].map(item => (
+              <NavLink key={item} href={`#${item.toLowerCase()}`} onClick={() => setIsMenuOpen(false)}>{item}</NavLink>
+            ))}
+          </div>
+        )}
+      </nav>
+
+      {/* --- HERO SECTION --- */}
+      <Section id="home" className="pt-40 pb-32 flex flex-col lg:flex-row items-center gap-16">
+        <div className="lg:w-1/2 space-y-6 z-10">
+          <FadeIn delay={100}>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold tracking-widest uppercase mb-4">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+              Available for Hire
+            </div>
+          </FadeIn>
+          
+          <FadeIn delay={200}>
+            <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight">
+              Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">Sai Datta</span>
+            </h1>
+          </FadeIn>
+          
+          <FadeIn delay={300}>
+            <h2 className="text-2xl lg:text-3xl text-slate-400 font-light">
+              {PORTFOLIO_DATA.title}
+            </h2>
+            <p className="text-lg text-slate-400 max-w-xl mt-4 leading-relaxed">
+              {PORTFOLIO_DATA.tagline} I build data warehouses, optimize SQL queries, and design dashboards that drive business growth.
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={400}>
+            <div className="flex flex-wrap gap-4 pt-4">
+              <a href="#projects" className="px-8 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-cyan-500/20">
+                View Projects <ChevronRight size={18} />
+              </a>
+              <a href={RESUME_LINK} download className="px-8 py-3 bg-transparent border border-slate-700 hover:border-cyan-400 text-white rounded-lg transition-all flex items-center gap-2">
+                Download Resume <Download size={18} />
+              </a>
+            </div>
+          </FadeIn>
+        </div>
+
+        {/* Abstract Visual / Image */}
+        <div className="lg:w-1/2 relative flex justify-center">
+          <div className="absolute inset-0 bg-cyan-500/20 blur-[100px] rounded-full"></div>
+          <div className="relative z-10 w-80 h-80 lg:w-96 lg:h-96 bg-slate-900 rounded-3xl border border-white/10 rotate-3 hover:rotate-0 transition-all duration-500 shadow-2xl flex items-center justify-center group overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950"></div>
+            <User size={120} className="text-slate-700 group-hover:text-cyan-400 transition-colors duration-500 relative z-10" />
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 to-blue-600"></div>
+          </div>
+        </div>
+      </Section>
+
+      {/* --- TECH MARQUEE --- */}
+      <div className="w-full py-8 bg-slate-900/50 border-y border-white/5 overflow-hidden">
+        <div className="flex gap-12 animate-marquee whitespace-nowrap">
+          {[...PORTFOLIO_DATA.skills, ...PORTFOLIO_DATA.skills].map((skill, i) => (
+            <div key={i} className="text-xl font-bold text-slate-500 hover:text-cyan-400 transition-colors cursor-default">
+              {skill}
+            </div>
+          ))}
+        </div>
       </div>
+
+      {/* --- ABOUT & STATS --- */}
+      <Section id="about" className="bg-slate-950">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <FadeIn>
+            <h3 className="text-cyan-400 font-bold tracking-widest uppercase mb-2">About Me</h3>
+            <h2 className="text-4xl font-bold text-white mb-6">Turning Logic into <br /> Business Value.</h2>
+            <p className="text-slate-400 leading-relaxed mb-6">
+              {PORTFOLIO_DATA.about}
+            </p>
+            <div className="bg-slate-900/50 p-6 rounded-xl border border-white/5 mb-6">
+              <div className="flex items-center gap-4 mb-2">
+                <div className="bg-cyan-500/20 p-2 rounded-lg text-cyan-400"><Code size={20} /></div>
+                <span className="font-bold text-white">Education</span>
+              </div>
+              <p className="text-slate-300">{PORTFOLIO_DATA.education.degree}</p>
+              <p className="text-sm text-slate-500">{PORTFOLIO_DATA.education.school} • GPA: {PORTFOLIO_DATA.education.gpa}</p>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={200}>
+            <div className="grid grid-cols-2 gap-4">
+              {PORTFOLIO_DATA.stats.map((stat, i) => (
+                <div key={i} className="bg-slate-900 p-6 rounded-2xl border border-white/5 hover:border-cyan-500/50 transition-colors group">
+                  <h4 className="text-4xl font-bold text-white group-hover:text-cyan-400 transition-colors">{stat.value}</h4>
+                  <p className="text-slate-500 text-sm mt-2 uppercase tracking-wider">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </FadeIn>
+        </div>
+      </Section>
+
+      {/* --- SKILLS SECTION (No Brainstormer) --- */}
+      <Section id="skills" className="relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-600/10 blur-[120px] rounded-full"></div>
+        
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Technical Arsenal</h2>
+            <p className="text-slate-400">My stack for solving complex data problems.</p>
+          </div>
+
+          {/* Simple Skill Tags Grid */}
+          <div className="flex flex-wrap justify-center gap-3">
+            {PORTFOLIO_DATA.skills.map((skill, i) => (
+              <FadeIn key={i} delay={i * 50}>
+                <div className="px-6 py-3 bg-slate-900 rounded-full border border-white/5 hover:border-cyan-500/50 hover:text-cyan-400 transition-all cursor-default shadow-sm hover:shadow-cyan-500/20">
+                  {skill}
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* --- PROJECTS SECTION (Dynamic) --- */}
+      <Section id="projects" className="bg-slate-950">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+             <h3 className="text-cyan-400 font-bold tracking-widest uppercase mb-2">Portfolio</h3>
+             <h2 className="text-4xl font-bold text-white">Featured Projects</h2>
+          </div>
+          
+          <FadeIn>
+            {projectView === 'grid' ? (
+              <ProjectGrid projects={PORTFOLIO_DATA.projects} onSelect={handleProjectSelect} />
+            ) : (
+              <ExpandingGallery 
+                projects={PORTFOLIO_DATA.projects} 
+                initialActiveId={activeProject} 
+                onBack={() => setProjectView('grid')}
+              />
+            )}
+          </FadeIn>
+        </div>
+      </Section>
+
+      {/* --- CONTACT & SOCIAL HUB --- */}
+      <Section id="contact" className="bg-gradient-to-b from-slate-950 to-slate-900 pb-32">
+        <div className="max-w-4xl mx-auto text-center">
+          <FadeIn>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Ready to analyze the future?</h2>
+            <p className="text-slate-400 mb-12 text-lg">
+              I'm currently looking for new opportunities. Let's connect and discuss how I can contribute to your team.
+            </p>
+            
+            {/* Social Hub */}
+            <div className="flex flex-wrap justify-center gap-4">
+               <SocialBtn href="mailto:ksaidatta.116@gmail.com" icon={Mail} colorClass="from-red-500 to-orange-500" />
+               <SocialBtn href="https://linkedin.com/in/datta116" icon={Linkedin} colorClass="from-blue-600 to-blue-400" />
+               <SocialBtn href="https://github.com/datta116" icon={Github} colorClass="from-slate-700 to-black" />
+               <SocialBtn href="#" icon={Twitter} colorClass="from-sky-500 to-blue-500" />
+               <SocialBtn href="#" icon={Youtube} colorClass="from-red-600 to-red-500" />
+            </div>
+
+            <div className="mt-12 p-8 bg-slate-900/50 border border-white/5 rounded-3xl inline-block">
+                <p className="text-slate-500 text-sm uppercase tracking-widest mb-2">Direct Contact</p>
+                <p className="text-2xl text-white font-bold hover:text-cyan-400 transition-colors">
+                  <a href="mailto:ksaidatta.116@gmail.com">ksaidatta.116@gmail.com</a>
+                </p>
+            </div>
+
+          </FadeIn>
+        </div>
+      </Section>
+
+      {/* --- FOOTER --- */}
+      <footer className="bg-slate-950 py-8 border-t border-white/5 text-center text-slate-600 text-sm">
+        <p>© 2025 K. Sai Datta. Built with React & Tailwind.</p>
+      </footer>
+
+      {/* --- FLOATING CHAT WIDGET --- */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        {chatOpen && (
+          <div className="mb-4 w-80 md:w-96 bg-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden flex flex-col animate-slideUp origin-bottom-right h-[400px]">
+            <div className="bg-slate-800 p-4 border-b border-white/5 flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="font-bold text-white text-sm">Sai's AI Assistant</span>
+              </div>
+              <button onClick={() => setChatOpen(false)} className="text-slate-400 hover:text-white"><X size={16} /></button>
+            </div>
+            
+            <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-900/95">
+              {chatHistory.map((msg, i) => (
+                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${
+                    msg.role === 'user' 
+                      ? 'bg-cyan-600 text-white rounded-tr-none' 
+                      : 'bg-slate-800 text-slate-200 rounded-tl-none border border-white/5'
+                  }`}>
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="bg-slate-800 p-3 rounded-2xl rounded-tl-none border border-white/5">
+                    <div className="flex gap-1">
+                      <span className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce"></span>
+                      <span className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce delay-100"></span>
+                      <span className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce delay-200"></span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <form onSubmit={handleChatSubmit} className="p-3 bg-slate-800 border-t border-white/5 flex gap-2">
+              <input 
+                className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500"
+                placeholder="Ask about my experience..."
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+              />
+              <button type="submit" className="p-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-500 transition-colors">
+                <Send size={16} />
+              </button>
+            </form>
+          </div>
+        )}
+
+        <button 
+          onClick={() => setChatOpen(!chatOpen)}
+          className="w-14 h-14 bg-cyan-500 hover:bg-cyan-400 text-slate-900 rounded-full flex items-center justify-center shadow-lg shadow-cyan-500/20 transition-all hover:scale-110"
+        >
+          {chatOpen ? <X size={24} /> : <MessageSquare size={24} />}
+        </button>
+      </div>
+
+      {/* --- GLOBAL STYLES FOR ANIMATIONS --- */}
+      <style>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          animation: marquee 20s linear infinite;
+        }
+        .animate-slideUp {
+          animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(20px) scale(0.95); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: scale(0.98); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-out forwards;
+        }
+      `}</style>
     </div>
-  </div>
-
-  <!-- Back to Top -->
-  <div id="backToTop">Up</div>
-
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <script>
-    // Particles
-    particlesJS("particles-js", {
-      particles: {
-        number: { value: 80 },
-        color: { value: "#64c8ff" },
-        shape: { type: "circle" },
-        opacity: { value: 0.4 },
-        size: { value: 3 },
-        line_linked: { enable: true, distance: 150, color: "#64c8ff", opacity: 0.2, width: 1 },
-        move: { enable: true, speed: 2 }
-      },
-      interactivity: { detect_on: "canvas", events: { onhover: { enable: true, mode: "repulse" } } }
-    });
-
-    // Typing Effect
-    const text = "I turn data into decisions using Python, SQL, Power BI and analytics.";
-    let i = 0;
-    function typeWriter() {
-      if (i < text.length) {
-        document.getElementById("typing-text").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typeWriter, 60);
-      }
-    }
-    setTimeout(typeWriter, 1000);
-
-    // Mobile Menu
-    document.getElementById('mobile-menu').addEventListener('click', () => {
-      document.getElementById('nav-links').classList.toggle('active');
-    });
-
-    // Project Modal Functionality
-    const modal = document.getElementById('projectModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalImage = document.getElementById('modalImage');
-    const modalDesc = document.getElementById('modalDesc');
-    const modalLink = document.getElementById('modalLink');
-    const modalClose = document.getElementById('modalClose');
-
-    document.querySelectorAll('.project-card').forEach(card => {
-      card.addEventListener('click', () => {
-        modalTitle.textContent = card.dataset.title;
-        modalDesc.textContent = card.dataset.desc;
-        modalImage.src = card.dataset.img;
-        modalLink.href = card.dataset.link;
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      });
-    });
-
-    // Close Modal
-    function closeModal() {
-      modal.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-    });
-
-    // Back to Top
-    const backToTop = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      backToTop.classList.toggle('show', window.scrollY > 500);
-    });
-    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-    // Section Reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('section').forEach(sec => observer.observe(sec));
-  </script>
-</body>
-</html>
+  );
+}
