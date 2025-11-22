@@ -98,7 +98,8 @@
         /* Glassmorphism */
         .glass-header,
         .glass-card,
-        .glass-footer {
+        .glass-footer,
+        .resume-container {
             background: var(--glass-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -157,11 +158,13 @@
             transition: width 0.3s ease;
         }
 
-        .nav-links a:hover::after {
+        .nav-links a:hover::after,
+        .nav-links a:focus::after {
             width: 100%;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links a:focus {
             color: var(--accent-color);
         }
 
@@ -171,6 +174,21 @@
             cursor: pointer;
             color: var(--primary-color);
         }
+        
+        /* Hamburger icon swap animation */
+        .hamburger i {
+            transition: all 0.3s ease;
+        }
+        
+        /* Accessibility Focus States */
+        a:focus,
+        button:focus,
+        input:focus,
+        textarea:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 3px;
+        }
+
 
         /* Sections */
         .section {
@@ -217,7 +235,7 @@
             align-items: center;
             justify-content: center;
             padding: 0 2rem;
-            padding-top: 80px;
+            padding-top: 8rem; /* Increased padding to account for fixed header */
         }
 
         .hero-text {
@@ -249,7 +267,7 @@
             margin-bottom: 2.5rem;
             color: #cbd5e1;
             max-width: 500px;
-            min-height: 2.4rem;
+            min-height: 2.4rem; /* Ensure space during deletion */
         }
 
         .hero-buttons {
@@ -271,6 +289,14 @@
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             position: relative;
             animation: blob 8s infinite ease-in-out;
+            overflow: hidden; /* To keep the profile image inside the blob shape */
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .glow-effect {
@@ -314,7 +340,9 @@
 
         /* Buttons */
         .btn {
-            display: inline-block;
+            display: inline-flex; /* Use flex for icon alignment */
+            align-items: center;
+            gap: 0.5rem;
             padding: 0.8rem 2rem;
             border-radius: 50px;
             text-decoration: none;
@@ -361,6 +389,9 @@
             object-fit: cover;
             box-shadow: 0 0 40px rgba(56, 189, 248, 0.3);
             border: 2px solid var(--glass-border);
+            /* Added for the new image implementation */
+            height: 400px;
+            display: block;
         }
 
         .about-text {
@@ -759,6 +790,7 @@
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            /* Remove animation-delay from CSS, let JS handle it dynamically */
         }
 
         .fade-in-up.visible {
@@ -795,6 +827,12 @@
                 width: 350px;
                 height: 350px;
             }
+            
+            .about-image img {
+                max-width: 350px;
+                height: 350px;
+            }
+
 
             .about-text h2 {
                 text-align: center !important;
@@ -862,14 +900,12 @@
 </head>
 
 <body>
-    <!-- Background Shapes -->
     <div class="background-shapes">
         <div class="shape shape-1"></div>
         <div class="shape shape-2"></div>
         <div class="shape shape-3"></div>
     </div>
 
-    <!-- Navigation -->
     <header class="glass-header">
         <nav>
             <div class="logo">K. Sai Datta</div>
@@ -888,40 +924,42 @@
     </header>
 
     <main>
-        <!-- Home / Hero Section -->
         <section id="home" class="hero-section">
             <div class="container split-layout">
                 <div class="hero-text">
-                    <h1>Hi, I'm <span class="highlight">K. Sai Datta</span></h1>
-                    <h2>Aspiring Data Analyst</h2>
-                    <p class="typing-text">I turn data into decisions using Python, SQL, Power BI and analytics.</p>
-                    <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary">View Projects</a>
-                        <a href="#contact" class="btn btn-secondary">Contact Me</a>
+                    <h1 class="fade-in-up">Hi, I'm <span class="highlight">K. Sai Datta</span></h1>
+                    <h2 class="fade-in-up" style="transition-delay: 0.1s;">Aspiring Data Analyst</h2>
+                    <p class="typing-text fade-in-up" style="transition-delay: 0.2s;"></p>
+                    <div class="hero-buttons fade-in-up" style="transition-delay: 0.3s;">
+                        <a href="#projects" class="btn btn-primary">View Projects <i class="fas fa-arrow-right"></i></a>
+                        <a href="#contact" class="btn btn-secondary">Contact Me <i class="fas fa-envelope"></i></a>
+                    </div>
+                    <div class="social-media-bar fade-in-up" style="transition-delay: 0.4s;">
+                        <a href="#" target="_blank" class="social-icon github" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" target="_blank" class="social-icon linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                <div class="hero-image">
+                <div class="hero-image fade-in-up" style="transition-delay: 0.2s;">
                     <div class="image-blob">
+                        <img src="placeholder-profile.jpg" alt="K. Sai Datta Profile Photo" class="profile-image">
                         <div class="glow-effect"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- About Section -->
         <section id="about" class="section">
             <div class="container">
                 <h2 class="section-title">About Me</h2>
                 <div class="split-layout reverse-mobile">
                     <div class="about-image fade-in-up">
-                        <div
-                            style="width: 400px; height: 400px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 20px;">
-                        </div>
+                        <img src="placeholder-about.jpg" alt="Data Analytics Illustration"
+                            style="width: 400px; height: 400px; border-radius: 20px;">
                     </div>
                     <div class="about-text glass-card fade-in-up">
                         <h3>Professional Summary</h3>
-                        <p>Aspiring Data Analyst with a strong foundation in Python, SQL, and data visualization tools
-                            like Power BI and Tableau. Skilled in data cleaning, exploratory data analysis (EDA), and
+                        <p>Aspiring **Data Analyst** with a strong foundation in **Python**, **SQL**, and data visualization tools
+                            like **Power BI** and **Tableau**. Skilled in data cleaning, exploratory data analysis (EDA), and
                             building ETL pipelines. Passionate about transforming raw data into actionable insights
                             through storytelling and analytics.</p>
 
@@ -938,7 +976,6 @@
             </div>
         </section>
 
-        <!-- Skills Section -->
         <section id="skills" class="section">
             <div class="container">
                 <h2 class="section-title">Skills & Expertise</h2>
@@ -950,7 +987,7 @@
                             <span>SQL</span>
                         </div>
                     </div>
-                    <div class="skill-category glass-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="skill-category glass-card fade-in-up">
                         <h3><i class="fas fa-tools"></i> Data Tools</h3>
                         <div class="tags">
                             <span>SQL Server</span>
@@ -960,7 +997,7 @@
                             <span>Git</span>
                         </div>
                     </div>
-                    <div class="skill-category glass-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="skill-category glass-card fade-in-up">
                         <h3><i class="fas fa-database"></i> Data Skills</h3>
                         <div class="tags">
                             <span>Data Cleaning</span>
@@ -971,7 +1008,7 @@
                             <span>Reporting</span>
                         </div>
                     </div>
-                    <div class="skill-category glass-card fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="skill-category glass-card fade-in-up">
                         <h3><i class="fas fa-book"></i> Libraries</h3>
                         <div class="tags">
                             <span>Pandas</span>
@@ -980,7 +1017,7 @@
                             <span>Matplotlib</span>
                         </div>
                     </div>
-                    <div class="skill-category glass-card fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="skill-category glass-card fade-in-up">
                         <h3><i class="fas fa-lightbulb"></i> Soft Skills</h3>
                         <div class="tags">
                             <span>Storytelling</span>
@@ -993,7 +1030,6 @@
             </div>
         </section>
 
-        <!-- Projects Section -->
         <section id="projects" class="section">
             <div class="container">
                 <h2 class="section-title">Projects</h2>
@@ -1001,7 +1037,7 @@
                     <div class="project-card glass-card fade-in-up">
                         <div class="project-preview">
                             <div
-                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color);">
                                 💎</div>
                         </div>
                         <div class="project-info">
@@ -1015,20 +1051,22 @@
                             </div>
                             <div class="project-links">
                                 <a href="https://github.com/datta116/Diamond_price_prediction" target="_blank"
-                                    class="btn btn-sm">View Code <i class="fab fa-github"></i></a>
+                                    class="btn btn-sm btn-secondary">View Code <i class="fab fa-github"></i></a>
+                                <a href="https://your-live-demo-link.com/diamond" target="_blank"
+                                    class="btn btn-sm btn-primary">View Demo <i class="fas fa-chart-bar"></i></a>
                             </div>
                         </div>
                     </div>
-                    <div class="project-card glass-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="project-card glass-card fade-in-up">
                         <div class="project-preview">
                             <div
-                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color);">
                                 🗄️</div>
                         </div>
                         <div class="project-info">
-                            <h3>🗄️ Data Warehouse</h3>
+                            <h3>🗄️ Data Warehouse (SQL Server)</h3>
                             <p>SQL Server implementation with Medallion Architecture, ETL pipelines, and Star schema for
-                                BI.</p>
+                                BI. Developed robust dimensional models.</p>
                             <div class="project-tech">
                                 <span>SQL Server</span>
                                 <span>ETL</span>
@@ -1036,49 +1074,33 @@
                             </div>
                             <div class="project-links">
                                 <a href="https://github.com/datta116/sql-data-warehouse-project" target="_blank"
-                                    class="btn btn-sm">View Code <i class="fab fa-github"></i></a>
+                                    class="btn btn-sm btn-secondary">View Code <i class="fab fa-github"></i></a>
+                                <a href="https://your-live-demo-link.com/warehouse-diagram" target="_blank"
+                                    class="btn btn-sm btn-primary">View Diagram <i class="fas fa-project-diagram"></i></a>
                             </div>
                         </div>
                     </div>
-                    <div class="project-card glass-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="project-card glass-card fade-in-up">
                         <div class="project-preview">
                             <div
-                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color);">
                                 📊</div>
                         </div>
                         <div class="project-info">
-                            <h3>📊 SQL Data Analytics</h3>
-                            <p>Comprehensive data analysis with EDA, segmentation, time-series analytics using CTEs &
-                                window functions.</p>
+                            <h3>📊 Power BI/Tableau Dashboard</h3>
+                            <p>Comprehensive data analysis and visualization using Power BI/Tableau for sales or HR
+                                data, utilizing advanced DAX/Table calculations.</p>
                             <div class="project-tech">
                                 <span>SQL</span>
-                                <span>Analytics</span>
-                                <span>CTEs</span>
+                                <span>Power BI</span>
+                                <span>Dashboarding</span>
+                                <span>DAX</span>
                             </div>
                             <div class="project-links">
                                 <a href="https://github.com/datta116/sql-data-analytics-project" target="_blank"
-                                    class="btn btn-sm">View Code <i class="fab fa-github"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-card glass-card fade-in-up" style="animation-delay: 0.3s;">
-                        <div class="project-preview">
-                            <div
-                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
-                                💰</div>
-                        </div>
-                        <div class="project-info">
-                            <h3>💰 Salary Dashboard</h3>
-                            <p>Interactive Excel dashboard visualizing salary trends across demographics with pivot
-                                tables and slicers.</p>
-                            <div class="project-tech">
-                                <span>Excel</span>
-                                <span>Pivot Tables</span>
-                                <span>Charts</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/datta116/Salary-Dashboard" target="_blank"
-                                    class="btn btn-sm">View Code <i class="fab fa-github"></i></a>
+                                    class="btn btn-sm btn-secondary">View SQL <i class="fab fa-github"></i></a>
+                                <a href="https://app.powerbi.com/view?r=e.g.your_report_id" target="_blank"
+                                    class="btn btn-sm btn-primary">View Dashboard <i class="fas fa-chart-pie"></i></a>
                             </div>
                         </div>
                     </div>
@@ -1086,218 +1108,179 @@
             </div>
         </section>
 
-        <!-- Resume Section -->
         <section id="resume" class="section">
-            <div class="container">
-                <h2 class="section-title">Resume</h2>
-                <div class="resume-container glass-card fade-in-up">
-                    <p>Check out my full professional resume.</p>
-                    <div class="resume-actions">
-                        <a href="#" download="K_Sai_Datta_Resume.pdf" class="btn btn-primary">Download Resume <i
-                                class="fas fa-download"></i></a>
-                        <a href="#" target="_blank" class="btn btn-secondary">View in Browser <i
-                                class="fas fa-external-link-alt"></i></a>
-                    </div>
+            <div class="container resume-container glass-card fade-in-up">
+                <h2 class="section-title">My Resume</h2>
+                <p>Download my professional resume for a detailed look at my education, skills, and projects.</p>
+                <div class="resume-actions">
+                    <a href="k_sai_datta_resume.pdf" target="_blank" class="btn btn-primary">
+                        Download PDF <i class="fas fa-download"></i>
+                    </a>
+                    <a href="#" target="_blank" class="btn btn-secondary">
+                        View on Notion <i class="fas fa-external-link-alt"></i>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section id="contact" class="section">
             <div class="container">
-                <h2 class="section-title">Contact Me</h2>
+                <h2 class="section-title">Get In Touch</h2>
                 <div class="contact-wrapper glass-card fade-in-up">
                     <div class="contact-info">
+                        <h3>Contact Details</h3>
+                        <p>I'm currently looking for new opportunities. My inbox is always open. Whether you have a question or just want to connect, feel free to reach out!</p>
                         <div class="info-item">
                             <i class="fas fa-envelope"></i>
-                            <span>ksaidatta.116@gmail.com</span>
+                            <span>your.email@example.com</span>
                         </div>
                         <div class="info-item">
                             <i class="fas fa-phone"></i>
-                            <span>+91 9182261303</span>
+                            <span>+91 98765 43210</span>
                         </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Hyderabad, Telangana, India</span>
+                        </div>
+                        
                         <div class="social-links">
-                            <a href="https://www.linkedin.com/in/datta116" target="_blank" title="LinkedIn"><i
-                                    class="fab fa-linkedin"></i></a>
-                            <a href="https://github.com/datta116" target="_blank" title="GitHub"><i
-                                    class="fab fa-github"></i></a>
-                        </div>
+                            <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                            </div>
                     </div>
-                    <form class="contact-form" id="contactForm">
+                    <form class="contact-form" action="https://formsubmit.co/your.email@example.com" method="POST">
                         <div class="form-group">
-                            <input type="text" id="name" placeholder="Your Name" required>
+                            <input type="text" name="name" placeholder="Your Name" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" id="email" placeholder="Your Email" required>
+                            <input type="email" name="email" placeholder="Your Email" required>
                         </div>
                         <div class="form-group">
-                            <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+                            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            Send Message <i class="fas fa-paper-plane"></i>
+                        </button>
                     </form>
-                </div>
-
-                <!-- Social Media Bar -->
-                <div class="social-media-bar">
-                    <a href="https://youtube.com/@ksaidatta" target="_blank" title="YouTube"
-                        class="social-icon youtube">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/datta116" target="_blank" title="LinkedIn"
-                        class="social-icon linkedin">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="https://instagram.com/ksaidatta" target="_blank" title="Instagram"
-                        class="social-icon instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://tiktok.com/@ksaidatta" target="_blank" title="TikTok" class="social-icon tiktok">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-                    <a href="https://discord.gg/ksaidatta" target="_blank" title="Discord" class="social-icon discord">
-                        <i class="fab fa-discord"></i>
-                    </a>
-                    <a href="https://notion.so/ksaidatta" target="_blank" title="Notion" class="social-icon notion">
-                        <i class="fas fa-book"></i>
-                    </a>
-                    <a href="https://twitter.com/ksaidatta" target="_blank" title="X (Twitter)"
-                        class="social-icon twitter">
-                        <i class="fab fa-x-twitter"></i>
-                    </a>
-                    <a href="https://github.com/datta116" target="_blank" title="GitHub" class="social-icon github">
-                        <i class="fab fa-github"></i>
-                    </a>
                 </div>
             </div>
         </section>
+
     </main>
 
-    <!-- Footer -->
     <footer class="glass-footer">
-        <p>&copy; 2025 K. Sai Datta. All rights reserved.</p>
+        <div class="container">
+            <p>&copy; 2024 K. Sai Datta. Designed with 💙 in Glassmorphism.</p>
+        </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button id="backToTop" class="back-to-top">
+    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Back to Top">
         <i class="fas fa-arrow-up"></i>
     </button>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Mobile Menu Toggle
-            const hamburger = document.querySelector('.hamburger');
-            const navLinks = document.querySelector('.nav-links');
-            const navLinksItems = document.querySelectorAll('.nav-links li');
+        // 1. Hamburger Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const hamburgerIcon = hamburger.querySelector('i');
 
-            if (hamburger) {
-                hamburger.addEventListener('click', () => {
-                    navLinks.classList.toggle('active');
-                });
+        const toggleMenu = () => {
+            navLinks.classList.toggle('active');
+            // Toggle between fa-bars (hamburger) and fa-times (close X)
+            if (navLinks.classList.contains('active')) {
+                hamburgerIcon.classList.remove('fa-bars');
+                hamburgerIcon.classList.add('fa-times');
+            } else {
+                hamburgerIcon.classList.remove('fa-times');
+                hamburgerIcon.classList.add('fa-bars');
             }
+        };
 
-            navLinksItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                });
-            });
+        hamburger.addEventListener('click', toggleMenu);
 
-            // Smooth Scrolling
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 70,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-
-            // Typing Animation
-            const typingText = document.querySelector('.typing-text');
-            if (typingText) {
-                const text = "I turn data into decisions using Python, SQL, Power BI and analytics.";
-                let index = 0;
-                typingText.textContent = '';
-
-                function type() {
-                    if (index < text.length) {
-                        typingText.textContent += text.charAt(index);
-                        index++;
-                        setTimeout(type, 50);
-                    }
+        // Close menu when a link is clicked (for mobile UX)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    toggleMenu(); // Use the same toggle function to close
                 }
-
-                setTimeout(type, 500);
-            }
-
-            // Scroll Animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: "0px 0px -50px 0px"
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            const animatedElements = document.querySelectorAll('.fade-in-up');
-            animatedElements.forEach(el => {
-                observer.observe(el);
             });
+        });
 
-            // Back to Top Button
-            const backToTopBtn = document.getElementById('backToTop');
+        // 2. Back to Top Button Visibility
+        const backToTopButton = document.querySelector('.back-to-top');
 
-            if (backToTopBtn) {
-                window.addEventListener('scroll', () => {
-                    if (window.pageYOffset > 300) {
-                        backToTopBtn.classList.add('visible');
-                    } else {
-                        backToTopBtn.classList.remove('visible');
-                    }
-                });
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
 
-                backToTopBtn.addEventListener('click', () => {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                });
+        // 3. Typing Text Animation
+        const typingTextElement = document.querySelector('.typing-text');
+        const phrases = [
+            "I turn data into decisions using Python, SQL, Power BI and analytics.",
+            "Passionate about Data Storytelling & ETL pipelines.",
+            "Expert in Data Cleaning, EDA, and Dashboarding.",
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 100;
+
+        function type() {
+            if (!typingTextElement) return;
+
+            const currentPhrase = phrases[phraseIndex];
+
+            if (isDeleting) {
+                typingTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 50; // Faster delete
+            } else {
+                typingTextElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 100; // Normal typing
             }
 
-            // Contact Form
-            const contactForm = document.getElementById('contactForm');
-            if (contactForm) {
-                contactForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const btn = contactForm.querySelector('button');
-                    const originalText = btn.innerText;
-                    btn.innerText = 'Sending...';
-                    btn.disabled = true;
-
-                    setTimeout(() => {
-                        btn.innerText = 'Message Sent! ✓';
-                        btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
-                        contactForm.reset();
-
-                        setTimeout(() => {
-                            btn.innerText = originalText;
-                            btn.disabled = false;
-                            btn.style.background = '';
-                        }, 3000);
-                    }, 1500);
-                });
+            // Finish typing or deleting the current phrase
+            if (!isDeleting && charIndex > currentPhrase.length) {
+                isDeleting = true;
+                typingSpeed = 1500; // Pause after typing
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typingSpeed = 300; // Pause before starting next phrase
             }
+
+            setTimeout(type, typingSpeed);
+        }
+
+        // 4. Scroll Reveal Animation (Intersection Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Start the typing animation once everything is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            type();
         });
     </script>
 </body>
