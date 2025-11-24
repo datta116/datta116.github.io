@@ -174,12 +174,12 @@
             cursor: pointer;
             color: var(--primary-color);
         }
-        
+
         /* Hamburger icon swap animation */
         .hamburger i {
             transition: all 0.3s ease;
         }
-        
+
         /* Accessibility Focus States */
         a:focus,
         button:focus,
@@ -235,7 +235,8 @@
             align-items: center;
             justify-content: center;
             padding: 0 2rem;
-            padding-top: 8rem; /* Increased padding to account for fixed header */
+            padding-top: 8rem;
+            /* Increased padding to account for fixed header */
         }
 
         .hero-text {
@@ -267,7 +268,8 @@
             margin-bottom: 2.5rem;
             color: #cbd5e1;
             max-width: 500px;
-            min-height: 2.4rem; /* Ensure space during deletion */
+            min-height: 2.4rem;
+            /* Ensure space during deletion */
         }
 
         .hero-buttons {
@@ -289,9 +291,10 @@
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             position: relative;
             animation: blob 8s infinite ease-in-out;
-            overflow: hidden; /* To keep the profile image inside the blob shape */
+            overflow: hidden;
+            /* To keep the profile image inside the blob shape */
         }
-        
+
         .profile-image {
             width: 100%;
             height: 100%;
@@ -340,7 +343,8 @@
 
         /* Buttons */
         .btn {
-            display: inline-flex; /* Use flex for icon alignment */
+            display: inline-flex;
+            /* Use flex for icon alignment */
             align-items: center;
             gap: 0.5rem;
             padding: 0.8rem 2rem;
@@ -827,7 +831,7 @@
                 width: 350px;
                 height: 350px;
             }
-            
+
             .about-image img {
                 max-width: 350px;
                 height: 350px;
@@ -896,6 +900,89 @@
                 font-size: 1.5rem;
             }
         }
+
+        /* Infinite Auto-Scroll for Projects */
+        .projects-grid {
+            overflow: hidden;
+            padding: 2rem 0;
+            position: relative;
+            width: 100%;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            display: block;
+            /* Override grid for scroll wrapper */
+        }
+
+        .projects-scroll-wrapper {
+            display: flex;
+            gap: 2rem;
+            will-change: transform;
+            padding-left: 1rem;
+            /* Breathing space */
+            width: max-content;
+        }
+
+        .projects-scroll-wrapper.scrolling {
+            animation: infiniteScroll 20s linear infinite;
+        }
+
+        .projects-scroll-wrapper.paused {
+            animation-play-state: paused;
+        }
+
+        .projects-scroll-wrapper:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes infiniteScroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-50% - 1rem));
+            }
+        }
+
+        .project-card {
+            min-width: 350px;
+            max-width: 350px;
+            flex-shrink: 0;
+        }
+
+        /* Navigation Buttons */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(165, 243, 252, 0.2);
+            color: var(--primary-color);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-color);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+
+        .prev-btn {
+            left: 10px;
+        }
+
+        .next-btn {
+            right: 10px;
+        }
     </style>
 </head>
 
@@ -934,9 +1021,12 @@
                         <a href="#projects" class="btn btn-primary">View Projects <i class="fas fa-arrow-right"></i></a>
                         <a href="#contact" class="btn btn-secondary">Contact Me <i class="fas fa-envelope"></i></a>
                     </div>
-                    <div class="social-media-bar fade-in-up" style="transition-delay: 0.4s;">
-                        <a href="#" target="_blank" class="social-icon github" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                        <a href="#" target="_blank" class="social-icon linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <div class="social-media-bar fade-in-up"
+                        style="transition-delay: 0.4s; justify-content: flex-start; padding-left: 0;">
+                        <a href="#" target="_blank" class="social-icon github" aria-label="GitHub"><i
+                                class="fab fa-github"></i></a>
+                        <a href="#" target="_blank" class="social-icon linkedin" aria-label="LinkedIn"><i
+                                class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
                 <div class="hero-image fade-in-up" style="transition-delay: 0.2s;">
@@ -958,8 +1048,10 @@
                     </div>
                     <div class="about-text glass-card fade-in-up">
                         <h3>Professional Summary</h3>
-                        <p>Aspiring **Data Analyst** with a strong foundation in **Python**, **SQL**, and data visualization tools
-                            like **Power BI** and **Tableau**. Skilled in data cleaning, exploratory data analysis (EDA), and
+                        <p>Aspiring *Data Analyst* with a strong foundation in *Python, **SQL*, and data visualization
+                            tools
+                            like *Power BI* and *Tableau*. Skilled in data cleaning, exploratory data analysis (EDA),
+                            and
                             building ETL pipelines. Passionate about transforming raw data into actionable insights
                             through storytelling and analytics.</p>
 
@@ -975,6 +1067,7 @@
                 </div>
             </div>
         </section>
+
 
         <section id="skills" class="section">
             <div class="container">
@@ -1026,87 +1119,203 @@
                             <span>Technical Writing</span>
                         </div>
                     </div>
+
+                    <!-- Add New Skills Here (Copy-paste the skill-category block above) -->
+
                 </div>
             </div>
         </section>
+
+
 
         <section id="projects" class="section">
             <div class="container">
                 <h2 class="section-title">Projects</h2>
                 <div class="projects-grid">
-                    <div class="project-card glass-card fade-in-up">
-                        <div class="project-preview">
-                            <div
-                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color);">
-                                💎</div>
-                        </div>
-                        <div class="project-info">
-                            <h3>💎 Diamond Price Prediction</h3>
-                            <p>Random Forest model with feature engineering (sqrt transform, ordinal encoding) on 53k+
-                                records with USD–INR conversion.</p>
-                            <div class="project-tech">
-                                <span>Python</span>
-                                <span>Scikit-learn</span>
-                                <span>Pandas</span>
+                    <button class="nav-btn prev-btn" id="prevProject"><i class="fas fa-chevron-left"></i></button>
+                    <button class="nav-btn next-btn" id="nextProject"><i class="fas fa-chevron-right"></i></button>
+
+                    <div class="projects-scroll-wrapper">
+                        <!-- Original Set -->
+                        <div class="project-card glass-card fade-in-up">
+                            <div class="project-preview">
+                                <div
+                                    style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color);">
+                                    💎</div>
                             </div>
-                            <div class="project-links">
-                                <a href="https://github.com/datta116/Diamond_price_prediction" target="_blank"
-                                    class="btn btn-sm btn-secondary">View Code <i class="fab fa-github"></i></a>
-                                <a href="https://your-live-demo-link.com/diamond" target="_blank"
-                                    class="btn btn-sm btn-primary">View Demo <i class="fas fa-chart-bar"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-card glass-card fade-in-up">
-                        <div class="project-preview">
-                            <div
-                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color);">
-                                🗄️</div>
-                        </div>
-                        <div class="project-info">
-                            <h3>🗄️ Data Warehouse (SQL Server)</h3>
-                            <p>SQL Server implementation with Medallion Architecture, ETL pipelines, and Star schema for
-                                BI. Developed robust dimensional models.</p>
-                            <div class="project-tech">
-                                <span>SQL Server</span>
-                                <span>ETL</span>
-                                <span>Star Schema</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/datta116/sql-data-warehouse-project" target="_blank"
-                                    class="btn btn-sm btn-secondary">View Code <i class="fab fa-github"></i></a>
-                                <a href="https://your-live-demo-link.com/warehouse-diagram" target="_blank"
-                                    class="btn btn-sm btn-primary">View Diagram <i class="fas fa-project-diagram"></i></a>
+                            <div class="project-info">
+                                <h3>💎 Diamond Price Prediction</h3>
+                                <p>Random Forest model with feature engineering (sqrt transform, ordinal encoding) on
+                                    53k+ records with USD–INR conversion.</p>
+                                <div class="project-tech">
+                                    <span>Python</span>
+                                    <span>Scikit-learn</span>
+                                    <span>Pandas</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/datta116/Diamond_price_prediction" target="_blank"
+                                        class="btn btn-sm btn-secondary">View Code <i class="fab fa-github"></i></a>
+                                    <a href="#" target="_blank" class="btn btn-sm btn-primary">View Demo <i
+                                            class="fas fa-chart-bar"></i></a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="project-card glass-card fade-in-up">
-                        <div class="project-preview">
-                            <div
-                                style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color);">
-                                📊</div>
-                        </div>
-                        <div class="project-info">
-                            <h3>📊 Power BI/Tableau Dashboard</h3>
-                            <p>Comprehensive data analysis and visualization using Power BI/Tableau for sales or HR
-                                data, utilizing advanced DAX/Table calculations.</p>
-                            <div class="project-tech">
-                                <span>SQL</span>
-                                <span>Power BI</span>
-                                <span>Dashboarding</span>
-                                <span>DAX</span>
+
+                        <div class="project-card glass-card fade-in-up">
+                            <div class="project-preview">
+                                <div
+                                    style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color);">
+                                    🗄</div>
                             </div>
-                            <div class="project-links">
-                                <a href="https://github.com/datta116/sql-data-analytics-project" target="_blank"
-                                    class="btn btn-sm btn-secondary">View SQL <i class="fab fa-github"></i></a>
-                                <a href="https://app.powerbi.com/view?r=e.g.your_report_id" target="_blank"
-                                    class="btn btn-sm btn-primary">View Dashboard <i class="fas fa-chart-pie"></i></a>
+                            <div class="project-info">
+                                <h3>🗄 Data Warehouse (SQL Server)</h3>
+                                <p>SQL Server implementation with Medallion Architecture, ETL pipelines, and Star schema
+                                    for BI. Developed robust dimensional models.</p>
+                                <div class="project-tech">
+                                    <span>SQL Server</span>
+                                    <span>ETL</span>
+                                    <span>Star Schema</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/datta116/sql-data-warehouse-project" target="_blank"
+                                        class="btn btn-sm btn-secondary">View Code <i class="fab fa-github"></i></a>
+                                    <a href="#" target="_blank" class="btn btn-sm btn-primary">View Diagram <i
+                                            class="fas fa-project-diagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-card glass-card fade-in-up">
+                            <div class="project-preview">
+                                <div
+                                    style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color);">
+                                    📊</div>
+                            </div>
+                            <div class="project-info">
+                                <h3>📊 Power BI/Tableau Dashboard</h3>
+                                <p>Comprehensive data analysis and visualization using Power BI/Tableau for sales or HR
+                                    data, utilizing advanced DAX/Table calculations.</p>
+                                <div class="project-tech">
+                                    <span>SQL</span>
+                                    <span>Power BI</span>
+                                    <span>Dashboarding</span>
+                                    <span>DAX</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/datta116/sql-data-analytics-project" target="_blank"
+                                        class="btn btn-sm btn-secondary">View SQL <i class="fab fa-github"></i></a>
+                                    <a href="#" target="_blank" class="btn btn-sm btn-primary">View Dashboard <i
+                                            class="fas fa-chart-pie"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add New Projects Here (Copy-paste the project-card block above) -->
+
+                        <!-- View More Card -->
+                        <div class="project-card glass-card fade-in-up"
+                            style="justify-content: center; align-items: center; text-align: center;">
+                            <div style="padding: 2rem;">
+                                <h3 style="margin-bottom: 1.5rem;">View More Projects</h3>
+                                <p style="margin-bottom: 2rem;">Explore my complete portfolio of data analytics and
+                                    development projects.</p>
+                                <a href="all-projects.html" target="_blank" class="btn btn-primary">
+                                    View All <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Duplicate Set for Infinite Scroll -->
+                        <div class="project-card glass-card fade-in-up">
+                            <div class="project-preview">
+                                <div
+                                    style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color);">
+                                    💎</div>
+                            </div>
+                            <div class="project-info">
+                                <h3>💎 Diamond Price Prediction</h3>
+                                <p>Random Forest model with feature engineering (sqrt transform, ordinal encoding) on
+                                    53k+ records with USD–INR conversion.</p>
+                                <div class="project-tech">
+                                    <span>Python</span>
+                                    <span>Scikit-learn</span>
+                                    <span>Pandas</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/datta116/Diamond_price_prediction" target="_blank"
+                                        class="btn btn-sm btn-secondary">View Code <i class="fab fa-github"></i></a>
+                                    <a href="#" target="_blank" class="btn btn-sm btn-primary">View Demo <i
+                                            class="fas fa-chart-bar"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-card glass-card fade-in-up">
+                            <div class="project-preview">
+                                <div
+                                    style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color);">
+                                    🗄</div>
+                            </div>
+                            <div class="project-info">
+                                <h3>🗄 Data Warehouse (SQL Server)</h3>
+                                <p>SQL Server implementation with Medallion Architecture, ETL pipelines, and Star schema
+                                    for BI. Developed robust dimensional models.</p>
+                                <div class="project-tech">
+                                    <span>SQL Server</span>
+                                    <span>ETL</span>
+                                    <span>Star Schema</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/datta116/sql-data-warehouse-project" target="_blank"
+                                        class="btn btn-sm btn-secondary">View Code <i class="fab fa-github"></i></a>
+                                    <a href="#" target="_blank" class="btn btn-sm btn-primary">View Diagram <i
+                                            class="fas fa-project-diagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-card glass-card fade-in-up">
+                            <div class="project-preview">
+                                <div
+                                    style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent-color);">
+                                    📊</div>
+                            </div>
+                            <div class="project-info">
+                                <h3>📊 Power BI/Tableau Dashboard</h3>
+                                <p>Comprehensive data analysis and visualization using Power BI/Tableau for sales or HR
+                                    data, utilizing advanced DAX/Table calculations.</p>
+                                <div class="project-tech">
+                                    <span>SQL</span>
+                                    <span>Power BI</span>
+                                    <span>Dashboarding</span>
+                                    <span>DAX</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/datta116/sql-data-analytics-project" target="_blank"
+                                        class="btn btn-sm btn-secondary">View SQL <i class="fab fa-github"></i></a>
+                                    <a href="#" target="_blank" class="btn btn-sm btn-primary">View Dashboard <i
+                                            class="fas fa-chart-pie"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- View More Card (Duplicate) -->
+                        <div class="project-card glass-card fade-in-up"
+                            style="justify-content: center; align-items: center; text-align: center;">
+                            <div style="padding: 2rem;">
+                                <h3 style="margin-bottom: 1.5rem;">View More Projects</h3>
+                                <p style="margin-bottom: 2rem;">Explore my complete portfolio of data analytics and
+                                    development projects.</p>
+                                <a href="all-projects.html" target="_blank" class="btn btn-primary">
+                                    View All <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
 
         <section id="resume" class="section">
             <div class="container resume-container glass-card fade-in-up">
@@ -1123,48 +1332,47 @@
             </div>
         </section>
 
+
         <section id="contact" class="section">
             <div class="container">
-                <h2 class="section-title">Get In Touch</h2>
-                <div class="contact-wrapper glass-card fade-in-up">
-                    <div class="contact-info">
-                        <h3>Contact Details</h3>
-                        <p>I'm currently looking for new opportunities. My inbox is always open. Whether you have a question or just want to connect, feel free to reach out!</p>
-                        <div class="info-item">
+                <h2 class="section-title">Contact Me</h2>
+                <div class="contact-wrapper glass-card fade-in-up"
+                    style="flex-direction: column; align-items: center; text-align: center; gap: 2rem;">
+
+                    <!-- Contact Details -->
+                    <div class="contact-details"
+                        style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                        <a href="mailto:your.email@example.com" class="info-item"
+                            style="text-decoration: none; color: inherit; transition: color 0.3s;">
                             <i class="fas fa-envelope"></i>
                             <span>your.email@example.com</span>
-                        </div>
-                        <div class="info-item">
+                        </a>
+                        <a href="tel:+919876543210" class="info-item"
+                            style="text-decoration: none; color: inherit; transition: color 0.3s;">
                             <i class="fas fa-phone"></i>
                             <span>+91 98765 43210</span>
-                        </div>
+                        </a>
                         <div class="info-item">
                             <i class="fas fa-map-marker-alt"></i>
                             <span>Hyderabad, Telangana, India</span>
                         </div>
-                        
-                        <div class="social-links">
-                            <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                            </div>
                     </div>
-                    <form class="contact-form" action="https://formsubmit.co/your.email@example.com" method="POST">
-                        <div class="form-group">
-                            <input type="text" name="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" name="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">
-                            Send Message <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </form>
+
+                    <!-- Social Media Icons -->
+                    <div class="social-media-bar" style="margin-top: 1rem; padding: 0;">
+                        <a href="#" target="_blank" class="social-icon linkedin" aria-label="LinkedIn"><i
+                                class="fab fa-linkedin-in"></i></a>
+                        <a href="#" target="_blank" class="social-icon github" aria-label="GitHub"><i
+                                class="fab fa-github"></i></a>
+                        <a href="#" target="_blank" class="social-icon twitter" aria-label="Twitter"><i
+                                class="fab fa-x-twitter"></i></a>
+                        <a href="#" target="_blank" class="social-icon instagram" aria-label="Instagram"><i
+                                class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
             </div>
         </section>
+
 
     </main>
 
@@ -1282,6 +1490,88 @@
         document.addEventListener('DOMContentLoaded', () => {
             type();
         });
+
+        // Auto-scroll and Navigation Logic
+        const projectsWrapper = document.querySelector('.projects-scroll-wrapper');
+        if (projectsWrapper) {
+            let isPaused = false;
+
+            // Start the animation
+            projectsWrapper.classList.add('scrolling');
+
+            // Calculate when to pause (at the end of the first set of projects)
+            const animationDuration = 20000; // 20 seconds
+            const pauseDuration = 2000; // 2 seconds pause
+
+            function pauseAtEnd() {
+                // Pause the animation
+                projectsWrapper.classList.add('paused');
+                isPaused = true;
+
+                // Resume after 2 seconds
+                setTimeout(() => {
+                    projectsWrapper.classList.remove('paused');
+                    isPaused = false;
+
+                    // Schedule next pause
+                    setTimeout(pauseAtEnd, animationDuration);
+                }, pauseDuration);
+            }
+
+            // Start the pause cycle (pause happens at 50% of animation = end of first set)
+            setTimeout(pauseAtEnd, animationDuration / 2);
+
+            // Pause on hover
+            projectsWrapper.addEventListener('mouseenter', () => {
+                if (!isPaused) {
+                    projectsWrapper.classList.add('paused');
+                }
+            });
+
+            projectsWrapper.addEventListener('mouseleave', () => {
+                if (!isPaused) {
+                    projectsWrapper.classList.remove('paused');
+                }
+            });
+
+            // Navigation Buttons
+            const prevBtn = document.getElementById('prevProject');
+            const nextBtn = document.getElementById('nextProject');
+
+            if (prevBtn && nextBtn) {
+                prevBtn.addEventListener('click', () => {
+                    // Reset animation to start
+                    projectsWrapper.style.animation = 'none';
+                    projectsWrapper.offsetHeight; /* trigger reflow */
+                    projectsWrapper.style.animation = 'infiniteScroll 20s linear infinite';
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    // Jump to end (More Projects card)
+                    projectsWrapper.classList.add('paused');
+                    projectsWrapper.style.transform = 'translateX(calc(-50% - 1rem))';
+
+                    // Wait 2 seconds, then restart from beginning
+                    setTimeout(() => {
+                        projectsWrapper.style.transition = 'none'; // Instant jump back
+                        projectsWrapper.style.transform = 'translateX(0)';
+
+                        // Force reflow
+                        projectsWrapper.offsetHeight;
+
+                        // Resume animation
+                        projectsWrapper.style.transition = '';
+                        projectsWrapper.classList.remove('paused');
+
+                        // Reset animation keyframes
+                        projectsWrapper.style.animation = 'none';
+                        projectsWrapper.offsetHeight;
+                        projectsWrapper.style.animation = 'infiniteScroll 20s linear infinite';
+                    }, 2000);
+                });
+            }
+        }
+
     </script>
 </body>
 
